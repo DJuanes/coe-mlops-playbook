@@ -1,0 +1,30 @@
+site_name: CoE MLOps Playbook
+site_url: ""
+site_description: Playbook de Ingeniería de Machine Learning de CoE Analytics
+site_author: YPF - CoE Analytics
+
+repo_url: https://github.com/DJuanes/Coe-Engineering-Playbook
+edit_uri: ""
+
+theme:
+  name: material
+  font:
+    text: Roboto
+  palette:
+    primary: blue
+  logo: resources/YPF.svg
+  favicon: resources/YPF.svg
+  features:
+    - navigation.instant
+    - navigation.indexes
+
+markdown_extensions:
+  - pymdownx.tasklist
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.pathconverter
+  - pymdownx.tabbed
+
+
+
+

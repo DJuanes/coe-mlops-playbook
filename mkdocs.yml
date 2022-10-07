@@ -3,7 +3,7 @@ site_url: ""
 site_description: Playbook de Ingeniería de Machine Learning de CoE Analytics
 site_author: YPF - CoE Analytics
 
-repo_url: https://github.com/DJuanes/Coe-Engineering-Playbook
+repo_url: https://github.com/DJuanes/coe-mlops-playbook
 edit_uri: ""
 
 theme:

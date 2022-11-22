@@ -1,0 +1,43 @@
+{
+    "overall": {
+      "precision": 0.8784040280050918,
+      "recall": 0.75,
+      "f1": 0.7778218694885362,
+      "num_samples": 144.0
+    },
+    "class": {
+      "computer-vision": {
+        "precision": 0.9722222222222222,
+        "recall": 0.6481481481481481,
+        "f1": 0.7777777777777778,
+        "num_samples": 54.0
+      },
+      "mlops": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1": 0.8571428571428571,
+        "num_samples": 12.0
+      },
+      "natural-language-processing": {
+        "precision": 0.9361702127659575,
+        "recall": 0.7586206896551724,
+        "f1": 0.8380952380952381,
+        "num_samples": 58.0
+      },
+      "other": {
+        "precision": 0.38461538461538464,
+        "recall": 1.0,
+        "f1": 0.5555555555555556,
+        "num_samples": 20.0
+      }
+    },
+    "slices": {
+      "short_text": {
+        "precision": 0.7142857142857143,
+        "recall": 0.7142857142857143,
+        "f1": 0.7142857142857143,
+        "num_samples": 7
+      }
+    }
+  }
+  

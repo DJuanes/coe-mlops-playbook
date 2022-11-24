@@ -42,6 +42,8 @@ Podemos ejecutar cualquiera de las reglas escribiendo `make <target>` en la term
 $ make style
 ```
 
+Si está usando Windows, primero debe instalar `make` ein Windows. Siga los pasos en este [link](https://linuxhint.com/run-makefile-windows/).
+
 ## PHONY
 
 Los Makefiles se usan comúnmente como accesos directos de comandos, lo que puede generar confusión cuando un target de Makefile y un archivo comparten el mismo nombre.

@@ -68,7 +68,7 @@ exclude = '''
     | .hg
     | .mypy_cache
     | .tox
-    | venv
+    | .mlops
     | _build
     | buck-out
     | build
@@ -88,7 +88,7 @@ profile = "black"
 line_length = 79
 multi_line_output = 3
 include_trailing_comma = true
-virtual_env = "venv"
+virtual_env = ".mlops"
 ```
 
 ### flake8
@@ -101,7 +101,7 @@ touch .flake8
 
 ```ini
 [flake8]
-exclude = venv
+exclude = .mlops
 ignore = E501, W503, E226
 max-line-length = 79
 

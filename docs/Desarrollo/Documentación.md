@@ -83,19 +83,45 @@ Mediante paquetes de código abierto podemos recopilar toda la documentación de
 1. Instale los paquetes necesarios:
 
     ```bash
-    python -m pip install mkdocs==1.3.0 mkdocstrings==0.18.1
+    pip install mkdocs==1.3.0 mkdocstrings==0.18.1
     ```
 
     En lugar de agregar directamente estos requisitos a nuestro archivo `requirements.txt`, podemos a aislarlo de nuestras bibliotecas principales requeridas.
+    Modificaremos nuestro script `setup.py` para que esto sea posible. Definiremos estos paquetes bajo un objeto `docs_packages`:
 
     ```bash
-    touch requirements-docs.txt
+    # setup.py
+    docs_packages = [
+        "mkdocs==1.3.0",
+        "mkdocstrings==0.18.1"
+    ]
     ```
 
+    y luego agregaremos esto al objeto `setup()` en el script:
+
     ```bash
-    # Agregar a requirements-docs.txt
-    mkdocs==1.3.0
-    mkdocstrings==0.18.1
+    # Definir nuestro paquete
+    setup(
+        ...
+        install_requires=[required_packages],
+        extras_require={
+            "dev": docs_packages,
+            "docs": docs_packages,
+        },
+    )
+    ```
+
+    Ahora podemos instalar este paquete con:
+
+    ```bash
+        pip install -e ".[docs]"
+    ```
+
+    También estamos definiendo una opción de `dev` que iremos actualizando para que los desarrolladores
+    puedan instalar todos los paquetes necesarios y adicionales en una sola llamada.
+
+    ```bash
+        pip install -e ".[dev]"
     ```
 
 2. Inicialice mkdocs:

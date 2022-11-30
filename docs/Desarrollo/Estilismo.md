@@ -24,23 +24,28 @@ Usaremos una combinación muy popular de convenciones de estilo y formato.
 Instale los paquetes necesarios:
 
 ```bash
-python -m pip install black==22.3.0 flake8==3.9.2 isort==5.10.1
+pip install black==22.3.0 flake8==3.9.2 isort==5.10.1
 ```
 
 Dado que estos paquetes de estilo no son parte integral de las operaciones principales de aprendizaje automático,
-creemos una lista separada en `requirements-dev.txt`.
-También incluimos requirements-docs.txt, ya que no es necesario que alguien instale solo los paquetes de estilo:
+creemos una lista separada en nuestro `setup.py`:
 
 ```bash
-touch requirements-dev.txt
-```
+# setup.py
+style_packages = [
+    "black==22.3.0",
+    "flake8==3.9.2",
+    "isort==5.10.1"
+]
 
-```bash
-# Agregar a requirements-dev.txt
-include requirements-docs.txt
-black==22.3.0
-flake8==3.9.2
-isort==5.10.1
+# Definir nuestro paquete
+setup(
+    ...
+    extras_require={
+        "dev": docs_packages + style_packages,
+        "docs": docs_packages,
+    },
+)
 ```
 
 ## Configuración
@@ -68,7 +73,7 @@ exclude = '''
     | .hg
     | .mypy_cache
     | .tox
-    | .mlops
+    | venv
     | _build
     | buck-out
     | build
@@ -85,10 +90,10 @@ A continuación, vamos a configurar isort en nuestro archivo `pyproject.toml`:
 # isort
 [tool.isort]
 profile = "black"
-line_length = 79
+line_length = 100
 multi_line_output = 3
 include_trailing_comma = true
-virtual_env = ".mlops"
+virtual_env = "venv"
 ```
 
 ### flake8
@@ -101,9 +106,9 @@ touch .flake8
 
 ```ini
 [flake8]
-exclude = .mlops
+exclude = venv
 ignore = E501, W503, E226
-max-line-length = 79
+max-line-length = 100
 
 # E501: Line too long
 # W503: Line break occurred before binary operator
@@ -124,9 +129,9 @@ import pretty_errors  # NOQA: F401 (imported but unused)
 Para usar estas herramientas que hemos configurado, tenemos que ejecutarlas desde el directorio del proyecto:
 
 ```bash
-black .
-flake8
-isort .
+black coe_template
+flake8 coe_template
+isort coe_template
 ```
 
 En la sección de makefile, aprenderemos cómo combinar todos estos comandos en uno.

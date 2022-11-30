@@ -45,7 +45,19 @@ Primero estableceremos la ubicación de nuestros logs en el script `config.py`:
 
 ```python
 # config/config.py
+# Directorios
+BASE_DIR = Path(__file__).parent.parent.absolute()
+CONFIG_DIR = Path(BASE_DIR, "config")
+DATA_DIR = Path(BASE_DIR, "data")
+STORES_DIR = Path(BASE_DIR, "stores")
 LOGS_DIR = Path(BASE_DIR, "logs")
+
+# Stores
+MODEL_REGISTRY = Path(STORES_DIR, "model")
+
+# Crear carpetas
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+MODEL_REGISTRY.mkdir(parents=True, exist_ok=True)
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 ```
 
@@ -55,6 +67,8 @@ A continuación, configuraremos el logger para nuestra aplicación:
 # config/config.py
 import logging
 import sys
+
+# Logger
 logging_config = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -212,6 +226,7 @@ Podemos cargar nuestro diccionario de configuración del log así:
 ```python
 # config/config.py
 from rich.logging import RichHandler
+
 logging.config.dictConfig(logging_config)
 logger = logging.getLogger()
 logger.handlers[0] = RichHandler(markup=True)  # pretty formatting
@@ -227,7 +242,7 @@ logging.critical("Hay algo terriblemente mal y el proceso puede terminar.")
 Necesitaremos instalar la librería `RichHandler` y agregarla a `requirements.txt`:
 
 ```bash
-python -m pip install rich==12.4.4
+pip install rich==12.4.4
 ```
 
 ```bash
@@ -247,6 +262,7 @@ se convierte en:
 
 ```python
 from config.config import logger
+
 logger.info("✅ Datos guardados!")
 ```
 

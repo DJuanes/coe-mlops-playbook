@@ -28,9 +28,9 @@ Por ejemplo, si quisiéramos crear una regla para el estilo, agregaríamos lo si
 # Styling
 .PHONY: style
 style:
-    black .
-    flake8
-    python3 -m isort .
+    black coe_template
+    flake8 coe_template
+    isort coe_template
 ```
 
 ## Targets
@@ -103,10 +103,13 @@ queremos ejecutar todos los pasos en un solo shell. Para hacer esto, podemos agr
 # Environment
 .ONESHELL:
 venv:
-    python3 -m venv venv
-    source venv/bin/activate
-    python3 -m pip install pip setuptools wheel
-    python3 -m pip install -e .
+    conda create --prefix venv python=3.9
+    conda config --set env_prompt '({name})'
+    conda activate ./venv && \
+    pip install --upgrade pip setuptools wheel && \
+    pip install -e ".[dev]" && \
+    pre-commit install && \
+    pre-commit autoupdate
 ```
 
 ## Ayuda
@@ -116,10 +119,10 @@ Lo último que agregaremos a nuestro Makefile es un target de ayuda en la parte 
 ```makefile
 .PHONY: help
 help:
-    @echo "Commands:"
-    @echo "venv    : creates a virtual environment."
-    @echo "style   : executes style formatting."
-    @echo "clean   : cleans all unnecessary files."
+    @echo "venv    : crea un virtual environment."
+    @echo "style   : ejecuta el formato de estilo."
+    @echo "clean   : limpia todos los archivos innecesarios."
+    @echo "test    : ejecuta pruebas en código, datos y modelos."
 ```
 
 ```bash

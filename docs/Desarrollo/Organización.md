@@ -105,10 +105,11 @@ Comencemos agregando las instrucciones que usamos para crear un virtual environm
 
 ```bash
 # Dentro de README.md
-conda create --name .mlops python=3.9
-conda activate .mlops
-python -m pip install pip setuptools wheel
-python -m pip install -r requirements.txt
+conda create --prefix venv python=3.9
+conda config --set env_prompt '({name})'
+conda activate ./venv
+pip install --upgrade pip setuptools wheel
+pip install -e .
 ```
 
 ### Configuraciones
@@ -354,7 +355,7 @@ Debemos asegurarnos de tener los paquetes necesarios cargados en nuestro entorno
 Cargamos los paquetes requeridos y los agregemos a nuestro archivo `requirements.txt`:
 
 ```bash
-python -m pip install numpy==1.19.5 pandas==1.3.5 pretty-errors==1.2.19
+pip install numpy==1.19.5 pandas==1.3.5 pretty-errors==1.2.19
 ```
 
 ```bash
@@ -431,6 +432,7 @@ def clean_text(text, lower=True, stem=False, stopwords=config.STOPWORDS):
 
     # Stemming
     if stem:
+        stemmer = PorterStemmer()
         text = " ".join([stemmer.stem(word, to_lowercase=lower) for word in text.split(" ")])
 
     return text
@@ -439,7 +441,7 @@ def clean_text(text, lower=True, stem=False, stopwords=config.STOPWORDS):
 Instale los paquetes requeridos y agréguelos a `requirements.txt`:
 
 ```bash
-python -m pip install nltk==3.7
+pip install nltk==3.7
 ```
 
 ```bash
@@ -650,6 +652,7 @@ def replace_oos_labels(df, labels, label_col, oos_label="other"):
     df[label_col] = df[label_col].apply(lambda x: oos_label if x in oos_tags else x)
     return df
 
+
 def replace_minority_labels(df, label_col, min_freq, new_label="other"):
     """Reemplazar las etiquetas minoritarias con otra etiqueta."""
     labels = Counter(df[label_col].values)
@@ -742,7 +745,7 @@ def get_data_splits(X, y, train_size=0.7):
 Instale los paquetes requeridos y agréguelos a `requirements.txt`:
 
 ```bash
-python -m pip install scikit-learn==0.24.2
+pip install scikit-learn==0.24.2
 ```
 
 ```bash
@@ -766,6 +769,7 @@ Comenzaremos definiendo la operación en nuestro `main.py`:
 import json
 from argparse import Namespace
 from coe_template import data, train, utils
+
 
 def train_model(args_fp):
     """Entrenar un modelo con argumentos dados."""
@@ -940,7 +944,7 @@ def get_metrics(y_true, y_pred, classes, df=None):
 Instale los paquetes requeridos y agréguelos a `requirements.txt`:
 
 ```bash
-python -m pip install imbalanced-learn==0.8.1 snorkel==0.9.8
+pip install imbalanced-learn==0.8.1 snorkel==0.9.8
 ```
 
 ```bash
@@ -959,6 +963,26 @@ args_fp = Path(config.CONFIG_DIR, "args.json")
 main.train_model(args_fp)
 ```
 
+Puede ser que aparezca un mensaje como este:
+
+```bash
+TypeError: Descriptors cannot not be created directly.
+If this call came from a _pb2.py file, your generated code is out of date and must be regenerated with protoc >= 3.19.0.
+```
+
+Para solucionar este error hay que hacer un downgrade de protobuf:
+
+```bash
+pip install protobuf==3.20.*
+```
+
+```bash
+# Agregar a requirements.txt
+protobuf==3.20.*
+```
+
+Luego vuelva a ejecutar los comandos para entrenar el modelo.
+
 </details>
 
 ### Optimización
@@ -974,6 +998,7 @@ import mlflow
 from numpyencoder import NumpyEncoder
 import optuna
 from optuna.integration.mlflow import MLflowCallback
+
 
 def optimize(args_fp, study_name, num_trials):
     """Optimizar hiperparámetros."""
@@ -1048,16 +1073,28 @@ que creará MLflow o podemos configurar esa ubicación:
 ```python
 # config/config.py
 import mlflow
+
+# Directorios
+BASE_DIR = Path(__file__).parent.parent.absolute()
+CONFIG_DIR = Path(BASE_DIR, "config")
+DATA_DIR = Path(BASE_DIR, "data")
 STORES_DIR = Path(BASE_DIR, "stores")
+
+# Stores
 MODEL_REGISTRY = Path(STORES_DIR, "model")
+
+# Crear carpetas
+DATA_DIR.mkdir(parents=True, exist_ok=True)
 MODEL_REGISTRY.mkdir(parents=True, exist_ok=True)
+
+# Registro del modelo MLFlow
 mlflow.set_tracking_uri("file:\\" + str(MODEL_REGISTRY.absolute()))
 ```
 
 Instale los paquetes requeridos y agréguelos a `requirements.txt`:
 
 ```bash
-python -m pip install mlflow==1.23.1 optuna==2.10.0 numpyencoder==0.3.0
+pip install mlflow==1.23.1 optuna==2.10.0 numpyencoder==0.3.0
 ```
 
 ```bash

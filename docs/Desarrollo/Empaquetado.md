@@ -18,7 +18,7 @@ Se recomienda utilizar [iTerm2](https://iterm2.com/)  (Mac) o [ConEmu](https://c
 Crearemos el directorio principal del proyecto para que podamos guardar allí nuestros componentes de empaquetado.
 
 ```bash
-Crear y cambiar al directorio
+# Crear y cambiar al directorio
 mkdir mlops
 cd mlops
 ```
@@ -37,20 +37,33 @@ echo ". ${PWD}/conda.sh" >> ~/.bashrc
 
 ## Virtual environment
 
-A continuación, configuraremos un entorno virtual para poder aislar los paquetes necesarios para nuestra aplicación. Esto también mantendrá los componentes separados de otros proyectos
-que pueden tener diferentes dependencias. Una vez que creamos nuestro entorno virtual, lo activaremos e instalaremos nuestros paquetes requeridos.
+A continuación, configuraremos un entorno virtual para poder aislar los paquetes necesarios para nuestra aplicación.
+Esto también mantendrá los componentes separados de otros proyectos que pueden tener diferentes dependencias.
+Una vez que creamos nuestro entorno virtual, lo activaremos e instalaremos nuestros paquetes requeridos.
 
 ```bash
-conda create --name .mlops python=3.9
-conda activate .mlops
+conda create --prefix venv python=3.9
+```
+
+Para eliminar el largo prefijo en el indicador de shell, modifique la configuración env_prompt en su archivo .condarc:
+
+```bash
+conda config --set env_prompt '({name})'
+```
+
+Esto editará su archivo .condarc si ya tiene uno o creará un archivo .condarc si no lo tiene.
+Ahora lo podemos activar:
+
+```bash
+conda activate ./venv
 # Verificamos que estamos usando 3.9
 python --version
-python -m pip install pip setuptools wheel
+pip install pip setuptools wheel
 ```
 
 Sabremos que nuestro entorno virtual está activo por su nombre en la terminal.
 
-## Requirements
+### Requirements
 
 Crearemos un archivo separado llamado requirements.txt donde especificaremos los paquetes (con sus versiones) que queremos instalar.
 
@@ -69,10 +82,49 @@ que solo enumeran los paquetes que no son dependencias.
 <PACKAGE>             # sin version
 ```
 
+### Setup
+
+Ahora crearemos un archivo llamado `setup.py` para proporcionar instrucciones sobre cómo configurar nuestro entorno virtual.
+
+```bash
+touch setup.py
+```
+
+```python
+# setup.py
+from pathlib import Path
+from setuptools import find_namespace_packages, setup
+```
+
+Comenzaremos extrayendo los paquetes requeridos de `requirements.txt`:
+
+```python
+# Cargar paquetes desde requirements.txt
+BASE_DIR = Path(__file__).parent
+with open(Path(BASE_DIR, "requirements.txt"), "r") as file:
+    required_packages = [ln.strip() for ln in file.readlines()]
+```
+
+El corazón del archivo `setup.py` es el objeto de instalación que describe cómo configurar nuestro paquete y sus dependencias.
+Nuestro paquete se llamará `coe_template` y abarcará todos los requisitos necesarios para ejecutarlo.
+
+```python
+# setup.py
+setup(
+    name="coe_template",
+    version=0.1,
+    description="Clasificación de proyectos de machine learning.",
+    author="Diego Juanes",
+    author_email="diego.juanes@ypf.com",
+    python_requires=">=3.9",
+    install_requires=[required_packages],
+)
+```
+
 ## Uso
 
 Podemos instalar nuestros paquetes así:
 
 ```bash
-python -m pip install -r requirements.txt            # instala solo los paquetes requeridos
+pip install -e .            # instala solo los paquetes requeridos
 ```

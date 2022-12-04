@@ -108,7 +108,7 @@ Comencemos agregando las instrucciones que usamos para crear un virtual environm
 conda create --prefix venv python=3.9
 conda config --set env_prompt '({name})'
 conda activate ./venv
-pip install --upgrade pip setuptools wheel
+python -m pip install --upgrade pip setuptools wheel
 pip install -e .
 ```
 
@@ -1257,7 +1257,7 @@ def predict(texts, artifacts):
     predictions = [
         {
             "input_text": texts[i],
-            "predicted_tags": tags[i],
+            "predicted_tag": tags[i],
         }
         for i in range(len(tags))
     ]

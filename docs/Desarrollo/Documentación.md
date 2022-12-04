@@ -86,7 +86,7 @@ Mediante paquetes de código abierto podemos recopilar toda la documentación de
     pip install mkdocs==1.3.0 mkdocstrings==0.18.1
     ```
 
-    En lugar de agregar directamente estos requisitos a nuestro archivo `requirements.txt`, podemos a aislarlo de nuestras bibliotecas principales requeridas.
+    En lugar de agregar directamente estos requisitos a nuestro archivo `requirements.txt`, vamos a aislarlo de nuestras bibliotecas principales requeridas.
     Modificaremos nuestro script `setup.py` para que esto sea posible. Definiremos estos paquetes bajo un objeto `docs_packages`:
 
     ```bash

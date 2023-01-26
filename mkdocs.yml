@@ -9,30 +9,30 @@ edit_uri: ""
 nav:
   - Home: index.md
   - Diseño:
-    - Producto: coe-mlops-playbook\Producto.md
-    - Ingeniería: coe-mlops-playbook\Ingeniería.md
-    - Proyecto: coe-mlops-playbook\Proyecto.md
+    - Producto: Diseño\Producto.md
+    - Ingeniería: Diseño\Ingeniería.md
+    - Proyecto: Diseño\Proyecto.md
   - Datos:
-    - Etiquetado: coe-mlops-playbook\Etiquetado.md
-    - Exploración: coe-mlops-playbook\Exploración.md
-    - Preprocesamiento: coe-mlops-playbook\Preprocesamiento.md
-    - Splitting: coe-mlops-playbook\Splitting.md
-    - Aumento: coe-mlops-playbook\Aumento.md
+    - Etiquetado: Datos\Etiquetado.md
+    - Exploración: Datos\Exploración.md
+    - Preprocesamiento: Datos\Preprocesamiento.md
+    - Splitting: Datos\Splitting.md
+    - Aumento: Datos\Aumento.md
   - Modelado:
-    - Líneas base: coe-mlops-playbook\Líneas base.md
-    - Evaluación: coe-mlops-playbook\Evaluación.md
-    - Seguimiento de experimentos: coe-mlops-playbook\Seguimiento de experimentos.md
-    - Optimización: coe-mlops-playbook\Optimización.md
+    - Líneas base: Modelado\Líneas base.md
+    - Evaluación: Modelado\Evaluación.md
+    - Seguimiento de experimentos: Modelado\Seguimiento de experimentos.md
+    - Optimización: Modelado\Optimización.md
   - Desarrollo:
-    - Empaquetado: coe-mlops-playbook\Empaquetado.md
-    - Organización: coe-mlops-playbook\Organización.md
-    - Logging: coe-mlops-playbook\Logging.md
-    - Documentación: coe-mlops-playbook\Documentación.md
-    - Estilismo: coe-mlops-playbook\Estilismo.md
-    - Makefile: coe-mlops-playbook\Makefile.md
+    - Empaquetado: Desarrollo\Empaquetado.md
+    - Organización: Desarrollo\Organización.md
+    - Logging: Desarrollo\Logging.md
+    - Documentación: Desarrollo\Documentación.md
+    - Estilismo: Desarrollo\Estilismo.md
+    - Makefile: Desarrollo\Makefile.md
   - Inferencia:
-    - Línea de comando: coe-mlops-playbook\Línea de comando.md
-    - API RESTful: coe-mlops-playbook\API RESTful.md
+    - Línea de comando: Inferencia\Línea de comando.md
+    - API RESTful: Inferencia\API RESTful.md
 
 theme:
   name: material

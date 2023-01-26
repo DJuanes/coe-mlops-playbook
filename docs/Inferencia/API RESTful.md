@@ -124,7 +124,7 @@ Las ventajas de FastAPI incluyen:
 * seguridad a través de OAuth2
 
 ```bash
-pip install fastapi==0.78.0
+python -m pip install fastapi==0.78.0
 ```
 
 ```bash
@@ -140,6 +140,7 @@ El primer paso es inicializar nuestra API en nuestro script `api.py` definiendo 
 # app/api.py
 from fastapi import FastAPI
 
+
 # Definir aplicación
 app = FastAPI(
     title="CoE MLOps Template",
@@ -154,6 +155,7 @@ Nuestro primer endpoint será uno simple en el que queremos mostrar que todo fun
 # app/api.py
 from http import HTTPStatus
 from typing import Dict
+
 
 @app.get("/")
 def _index() -> Dict:
@@ -171,7 +173,7 @@ def _index() -> Dict:
 Usamos Uvicorn, un servidor ASGI rápido que puede ejecutar código asíncrono en un solo proceso para iniciar nuestra aplicación.
 
 ```bash
-pip install uvicorn==0.17.6
+python -m pip install uvicorn==0.17.6
 ```
 
 ```bash
@@ -190,8 +192,8 @@ uvicorn app.api:app \               # ubicación de la aplicación
     --reload-dir app                # y el directorio `app`
 ```
 
-Si queremos administrar múltiples trabajadores de uvicorn para habilitar el paralelismo en nuestra aplicación, podemos usar Gunicorn junto con Uvicorn.
-Podemos iniciar todos los trabajadores con el siguiente comando:
+Si queremos administrar múltiples workers de uvicorn para habilitar el paralelismo en nuestra aplicación, podemos usar Gunicorn junto con Uvicorn.
+Podemos iniciar todos los workers con el siguiente comando:
 
 ```bash
 gunicorn -c config/gunicorn.py -k uvicorn.workers.UvicornWorker app.api:app
@@ -427,7 +429,8 @@ Ahora podemos usar este payload en nuestro endpoint:
 
 ```python
 from app.schemas import PredictPayload
-from coe_template import predict
+from coe_template import main, predict
+
 
 @app.post("/predict", tags=["Prediction"])
 @construct_response

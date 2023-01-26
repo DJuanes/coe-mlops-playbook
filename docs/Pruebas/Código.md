@@ -19,21 +19,23 @@ mkdir tests
 cd tests
 mkdir code
 cd code
-touch test_data.py test_evaluate.py test_main.py test_predict.py test_utils.py
+touch test_data.py test_evaluate.py test_main.py test_predict.py test_utils.py test_args.json
 cd ../../
 ```
 
 Vamos a utilizar pytest como nuestro framework de pruebas por sus poderosas características incorporadas como parametrización, fixtures, marcadores y más.
 
 ```bash
-pip install pytest==7.1.2
+python -m pip install pytest==7.1.2
 ```
 
 Dado que este paquete no es parte integral de las operaciones principales de machine learning, creemos una lista separada en nuestro `setup.py` y la agregamos a `extras_require`:
 
 ```bash
 # setup.py
-test_packages = ["pytest==7.1.2"]
+test_packages = [
+    "pytest==7.1.2"
+]
 
 # Definir nuestro paquete
 setup(
@@ -52,6 +54,14 @@ De esta manera tendremos mayor flexibilidad, podemos ejecutar sólo las pruebas,
 
 Pytest espera que las pruebas se organicen bajo un directorio tests por defecto.
 Una vez en el directorio, pytest busca scripts de python que empiecen por `tests_*.py` pero podemos configurarlo para que lea también cualquier otro patrón de archivos.
+Podemos configurarlo en nuestro archivo `pyproject.toml`:
+
+```ini
+# Pytest
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+```
 
 ## Assertions
 
@@ -379,6 +389,26 @@ pytest -m "fruits"      #  ejecuta todas las pruebas marcadas con `fruits`
 pytest -m "not fruits"  #  ejecuta todas las pruebas excepto las marcadas con `fruits`
 ```
 
+La forma correcta de usar marcadores es listar explícitamente los que hemos creado en nuestro archivo `pyproject.toml`.
+Aquí podemos especificar que todos los marcadores deben definirse en este archivo con el flag --strict-markers y luego declarar nuestros marcadores:
+
+```python
+@pytest.mark.training
+def test_train_model():
+    assert ...
+```
+
+```ini
+# Pytest
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+addopts = "--strict-markers --disable-pytest-warnings"
+markers = [
+    "training: tests that involve training",
+]
+```
+
 ## Coverage
 
 A medida que desarrollamos pruebas para los componentes de nuestra aplicación, es importante saber qué tan bien estamos cubriendo nuestra base de código y saber si hemos omitido algo.
@@ -386,14 +416,17 @@ Podemos utilizar la librería Coverage para rastrear y visualizar qué parte de 
 Con pytest, es aún más fácil utilizar este paquete gracias al plugin pytest-cov.
 
 ```bash
-pip install pytest-cov==2.10.1
+python -m pip install pytest-cov==2.10.1
 ```
 
 Y agregaremos esto a nuestro script `setup.py`:
 
 ```python
 # setup.py
-test_packages = ["pytest==7.1.2", "pytest-cov==2.10.1"]
+test_packages = [
+    "pytest==7.1.2",
+    "pytest-cov==2.10.1"
+]
 ```
 
 ```bash

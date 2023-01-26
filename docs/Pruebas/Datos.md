@@ -6,14 +6,18 @@ Es una librería que nos permite crear expectativas sobre el aspecto que deberí
 También proporciona módulos para conectarse sin problemas con fuentes de datos de backend como sistemas de archivos locales, cloud, bases de datos, etc.
 
 ```bash
-pip install great-expectations==0.15.15
+python -m pip install great-expectations==0.15.15
 ```
 
 Y agregaremos esto a nuestro script `setup.py`:
 
 ```python
 # setup.py
-test_packages = ["pytest==7.1.2", "pytest-cov==2.10.1", "great-expectations==0.15.15"]
+test_packages = [
+    "pytest==7.1.2",
+    "pytest-cov==2.10.1",
+    "great-expectations==0.15.15"
+]
 ```
 
 Primero cargaremos los datos sobre los que queremos aplicar nuestras expectativas.
@@ -187,6 +191,7 @@ Name the new Expectation Suite [projects.csv.warning]: projects
 
 Esto abrirá un notebook interactivo donde podemos añadir expectativas.
 Copie y pegue las expectativas a continuación y ejecute todas las celdas.
+Repita este paso para las `tags.csv` y `labeled_projects.csv`.
 
 <details>
 <summary>Expectativas para projects.csv</summary>

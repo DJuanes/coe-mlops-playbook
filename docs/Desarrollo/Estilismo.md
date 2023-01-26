@@ -24,7 +24,7 @@ Usaremos una combinación muy popular de convenciones de estilo y formato.
 Instale los paquetes necesarios:
 
 ```bash
-pip install black==22.3.0 flake8==3.9.2 isort==5.10.1
+python -m pip install black==22.3.0 flake8==3.9.2 isort==5.10.1
 ```
 
 Dado que estos paquetes de estilo no son parte integral de las operaciones principales de aprendizaje automático,
@@ -68,8 +68,8 @@ line-length = 100
 include = '\.pyi?$'
 exclude = '''
 /(
-      .eggs         # exclude a few common directories in the
-    | .git          # root of the project
+      .eggs         # excluir algunos directorios comunes en el
+    | .git          # raíz del proyecto
     | .hg
     | .mypy_cache
     | .tox
@@ -107,10 +107,9 @@ touch .flake8
 ```ini
 [flake8]
 exclude = venv
-ignore = E501, W503, E226
+ignore = W503, E226
 max-line-length = 100
 
-# E501: Line too long
 # W503: Line break occurred before binary operator
 # E226: Missing white space around arithmetic operator
 ```

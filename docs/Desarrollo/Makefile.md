@@ -42,7 +42,7 @@ Podemos ejecutar cualquiera de las reglas escribiendo `make <target>` en la term
 $ make style
 ```
 
-Si está usando Windows, primero debe instalar `make` ein Windows. Siga los pasos en este [link](https://linuxhint.com/run-makefile-windows/).
+Si está usando Windows, primero debe instalar `make` en Windows. Siga los pasos en este [link](https://linuxhint.com/run-makefile-windows/).
 
 ## PHONY
 
@@ -103,13 +103,10 @@ queremos ejecutar todos los pasos en un solo shell. Para hacer esto, podemos agr
 # Environment
 .ONESHELL:
 venv:
-    conda create --prefix venv python=3.9
-    conda config --set env_prompt '({name})'
-    conda activate ./venv && \
-    pip install --upgrade pip setuptools wheel && \
-    pip install -e ".[dev]" && \
-    pre-commit install && \
-    pre-commit autoupdate
+    python3 -m venv venv
+    source venv/bin/activate && \
+    python -m pip install --upgrade pip setuptools wheel && \
+    pip install -e
 ```
 
 ## Ayuda
@@ -122,7 +119,6 @@ help:
     @echo "venv    : crea un virtual environment."
     @echo "style   : ejecuta el formato de estilo."
     @echo "clean   : limpia todos los archivos innecesarios."
-    @echo "test    : ejecuta pruebas en código, datos y modelos."
 ```
 
 ```bash

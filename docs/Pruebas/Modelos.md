@@ -124,7 +124,7 @@ def artifacts():
     ],
 )
 def test_inv(text, tag, artifacts):
-    """INVariance via verb injection (changes should not affect outputs)."""
+    """INVariance a través de inyección de verbos (los cambios no deberían afectar los resultados)."""
     predicted_tag = predict.predict(texts=[text], artifacts=artifacts)[0]["predicted_tag"]
     assert tag == predicted_tag
 
@@ -147,7 +147,7 @@ def test_inv(text, tag, artifacts):
     ],
 )
 def test_dir(text, tag, artifacts):
-    """DIRectional expectations (changes with known outputs)."""
+    """Expectativas DIReccionales (cambios con resultados conocidos)."""
     predicted_tag = predict.predict(texts=[text], artifacts=artifacts)[0]["predicted_tag"]
     assert tag == predicted_tag
 
@@ -170,7 +170,7 @@ def test_dir(text, tag, artifacts):
     ],
 )
 def test_mft(text, tag, artifacts):
-    """Minimum Functionality Tests (simple input/output pairs)."""
+    """Pruebas de Funcionalidad Mínima (pares simples de entrada/salida)."""
     predicted_tag = predict.predict(texts=[text], artifacts=artifacts)[0]["predicted_tag"]
     assert tag == predicted_tag
 ```

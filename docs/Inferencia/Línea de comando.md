@@ -16,7 +16,7 @@ Debe diseñarse de tal manera que podamos ver todas las operaciones posibles (y 
 Vamos a crear nuestra CLI usando Typer:
 
 ```bash
-pip install typer==0.4.1
+python -m pip install typer==0.4.1
 ```
 
 ```bash

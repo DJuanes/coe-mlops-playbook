@@ -23,17 +23,11 @@ mkdir mlops
 cd mlops
 ```
 
-## Conda
+## Python
 
-Utilizaremos Conda como gestor de paquetes.
-Luego de instalar Anaconda3, si queremos que los comandos conda estén disponibles en Bash, tenemos que agregar conda.sh al archivo .bashrc.
-Navegamos a la carpeta donde tenemos instalado anaconda3, y luego a etc -> profile.d.
-Hacemos clic derecho dentro del explorador de archivos y luego elejir "Git Bash Here".
-Luego hay que ejecutar este comando en el terminal:
-
-```bash
-echo ". ${PWD}/conda.sh" >> ~/.bashrc
-```
+Lo primero que haremos será configurar la versión correcta de Python. Usaremos la versión 3.9.13.
+Es recomendable utilizar un administrador de versiones como [pyenv](https://github.com/pyenv/pyenv).
+Pyenv funciona para Mac y Linux, pero si está en Windows, debe usar [pyenv-win](https://github.com/pyenv-win/pyenv-win).
 
 ## Virtual environment
 
@@ -42,23 +36,9 @@ Esto también mantendrá los componentes separados de otros proyectos que pueden
 Una vez que creamos nuestro entorno virtual, lo activaremos e instalaremos nuestros paquetes requeridos.
 
 ```bash
-conda create --prefix venv python=3.9
-```
-
-Para eliminar el largo prefijo en el indicador de shell, modifique la configuración env_prompt en su archivo .condarc:
-
-```bash
-conda config --set env_prompt '({name})'
-```
-
-Esto editará su archivo .condarc si ya tiene uno o creará un archivo .condarc si no lo tiene.
-Ahora lo podemos activar:
-
-```bash
-conda activate ./venv
-# Verificamos que estamos usando 3.9
-python --version
-pip install pip setuptools wheel
+python3 -m venv venv
+source ./venv/scripts/activate
+python -m pip install --upgrade pip setuptools wheel
 ```
 
 Sabremos que nuestro entorno virtual está activo por su nombre en la terminal.
@@ -126,5 +106,5 @@ setup(
 Podemos instalar nuestros paquetes así:
 
 ```bash
-pip install -e .            # instala solo los paquetes requeridos
+python -m pip install -e .            # instala solo los paquetes requeridos
 ```

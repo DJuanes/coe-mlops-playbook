@@ -103,11 +103,16 @@ touch README.md
 
 Comencemos agregando las instrucciones que usamos para crear un virtual environment:
 
+```markdown
+# CoE MLOps Template
+
+## Virtual environment
+
+```
+
 ```bash
-# Dentro de README.md
-conda create --prefix venv python=3.9
-conda config --set env_prompt '({name})'
-conda activate ./venv
+python3 -m venv venv
+source ./venv/scripts/activate
 python -m pip install --upgrade pip setuptools wheel
 pip install -e .
 ```
@@ -153,12 +158,12 @@ y dentro de `args.json`, agregaremos los parámetros que son relevantes para el 
 
 ### Operaciones
 
-Comenzaremos creando nuestro directorio de paquetes (`coe_template`) dentro de nuestro directorio de proyectos (`mlops`).
+Comenzaremos creando nuestro directorio de paquetes (`src`) dentro de nuestro directorio de proyectos (`mlops`).
 Dentro de este directorio de paquetes, crearemos un archivo `main.py` que definirá las operaciones principales que queremos tener disponibles.
 
 ```bash
-mkdir coe_template
-touch coe_template/main.py
+mkdir src
+touch src/main.py
 ```
 
 Definiremos estas operaciones centrales dentro de `main.py` a medida que movemos el código de los notebooks a los scripts apropiados a continuación:
@@ -189,19 +194,20 @@ def set_seeds(seed=42):
     random.seed(seed)
 ```
 
-Podemos almacenar todas estas funciones dentro de un archivo `Utils.py` en el directorio de paquetes `coe_template`.
+Podemos almacenar todas estas funciones dentro de un archivo `Utils.py` en el directorio de paquetes `src`.
 
 ```bash
-touch coe_template/utils.py
+touch src/utils.py
 ```
 
 <details>
-<summary>View utils.py</summary>
+<summary>Ver utils.py</summary>
 
 ```python
 import json
 import numpy as np
 import random
+
 
 def load_dict(filepath):
     """Cargar un diccionario desde la ruta de archivo de un JSON."""
@@ -209,10 +215,12 @@ def load_dict(filepath):
         d = json.load(fp)
     return d
 
+
 def save_dict(d, filepath, cls=None, sortkeys=False):
     """Guardar un diccionario en una ubicación específica."""
     with open(filepath, "w") as fp:
         json.dump(d, indent=2, fp=fp, cls=cls, sort_keys=sortkeys)
+
 
 def set_seeds(seed=42):
     """Setear seeds para la reproducibilidad."""
@@ -230,7 +238,7 @@ Por ejemplo, podemos crear scripts para las diversas etapas del desarrollo de ML
 Crearemos los diferentes archivos de Python para envolver nuestros datos y funcionalidad ML:
 
 ```bash
-cd coe_template
+cd src
 touch data.py train.py evaluate.py predict.py
 ```
 
@@ -325,15 +333,16 @@ TAGS_URL = "https://raw.githubusercontent.com/GokuMohandas/Made-With-ML/main/dat
 Definiremos esta operación en `main.py`:
 
 ```python
-# coe_template/main.py
+# src/main.py
 import pandas as pd
 from pathlib import Path
 import warnings
 
 from config import config
-from coe_template import utils
+from src import utils
 
 warnings.filterwarnings("ignore")
+
 
 def elt_data():
     """Extraer, cargar y transformar nuestros activos de datos."""
@@ -355,7 +364,7 @@ Debemos asegurarnos de tener los paquetes necesarios cargados en nuestro entorno
 Cargamos los paquetes requeridos y los agregemos a nuestro archivo `requirements.txt`:
 
 ```bash
-pip install numpy==1.19.5 pandas==1.3.5 pretty-errors==1.2.19
+python -m pip install numpy==1.19.5 pandas==1.3.5 pretty-errors==1.2.19
 ```
 
 ```bash
@@ -368,7 +377,7 @@ pretty-errors==1.2.19
 Ejecutaremos la operación utilizando el intérprete de Python a través del terminal (escriba `python` en la terminal y luego los comandos a continuación).
 
 ```python
-from coe_template import main
+from src import main
 main.elt_data()
 ```
 
@@ -384,7 +393,7 @@ Usaremos estas funciones cuando estemos preparando los datos antes de entrenar n
 No guardaremos los datos preprocesados en un archivo porque diferentes experimentos pueden preprocesarlos de manera diferente.
 
 ```python
-# coe_template/data.py
+# src/data.py
 def preprocess(df, lower, stem, min_freq):
     """Preprocesar los datos."""
     df["text"] = df.title + " " + df.description  # feature engineering
@@ -402,11 +411,12 @@ def preprocess(df, lower, stem, min_freq):
 Esta función usa la función `clean_text()`:
 
 ```python
-# coe_template/data.py
+# src/data.py
 from nltk.stem import PorterStemmer
 import re
 
 from config import config
+
 
 def clean_text(text, lower=True, stem=False, stopwords=config.STOPWORDS):
     """Limpiar texto sin procesar."""
@@ -441,7 +451,7 @@ def clean_text(text, lower=True, stem=False, stopwords=config.STOPWORDS):
 Instale los paquetes requeridos y agréguelos a `requirements.txt`:
 
 ```bash
-pip install nltk==3.7
+python -m pip install nltk==3.7
 ```
 
 ```bash
@@ -643,8 +653,9 @@ STOPWORDS = [
 A continuación, debemos definir las dos funciones a las que llamamos desde `data.py`:
 
 ```python
-# coe_template/data.py
+# src/data.py
 from collections import Counter
+
 
 def replace_oos_labels(df, labels, label_col, oos_label="other"):
     """Reemplazar las etiquetas fuera de alcance (oos)."""
@@ -672,9 +683,10 @@ def replace_minority_labels(df, label_col, min_freq, new_label="other"):
 Ahora definamos el codificador para nuestras etiquetas:
 
 ```python
-# coe_template/data.py
+# src/data.py
 import json
 import numpy as np
+
 
 class LabelEncoder():
     """Codificar las etiquetas en índices únicos."""
@@ -733,6 +745,7 @@ Y finalmente, concluiremos nuestras operaciones de datos con nuestra función de
 ```python
 from sklearn.model_selection import train_test_split
 
+
 def get_data_splits(X, y, train_size=0.7):
     """Generar divisiones de datos equilibradas."""
     X_train, X_, y_train, y_ = train_test_split(
@@ -745,7 +758,7 @@ def get_data_splits(X, y, train_size=0.7):
 Instale los paquetes requeridos y agréguelos a `requirements.txt`:
 
 ```bash
-pip install scikit-learn==0.24.2
+python -m pip install scikit-learn==0.24.2
 ```
 
 ```bash
@@ -765,10 +778,11 @@ scikit-learn==0.24.2
 Comenzaremos definiendo la operación en nuestro `main.py`:
 
 ```python
-# coe_template/main.py
+# src/main.py
 import json
 from argparse import Namespace
-from coe_template import data, train, utils
+
+from src import data, train, utils
 
 
 def train_model(args_fp):
@@ -786,7 +800,7 @@ def train_model(args_fp):
 Agregaremos más a nuestra operación `train_model()` cuando tengamos en cuenta el seguimiento de experimentos pero, por ahora, es bastante simple.
 
 ```python
-# coe_template/train.py
+# src/train.py
 from imblearn.over_sampling import RandomOverSampler
 import json
 import numpy as np
@@ -795,7 +809,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import log_loss
 
-from coe_template import data, predict, utils, evaluate
+from src import data, predict, utils, evaluate
 
 
 def train(args, df, trial=None):
@@ -865,8 +879,9 @@ def train(args, df, trial=None):
 Esta función `train()` llama a dos funciones externas (`predict.custom_predict()` de `predict.py` y `Evaluation.get_metrics()` de `Evaluation.py`):
 
 ```python
-# coe_template/predict.py
+# src/predict.py
 import numpy as np
+
 
 def custom_predict(y_prob, threshold, index):
     """Función de predicción personalizada que por defecto
@@ -876,11 +891,12 @@ def custom_predict(y_prob, threshold, index):
 ```
 
 ```python
-# coe_template/evaluate.py
+# src/evaluate.py
 import numpy as np
 from sklearn.metrics import precision_recall_fscore_support
 from snorkel.slicing import PandasSFApplier
 from snorkel.slicing import slicing_function
+
 
 @slicing_function()
 def nlp_cnn(x):
@@ -889,10 +905,12 @@ def nlp_cnn(x):
     convolution_projects = "CNN" in x.text or "convolution" in x.text
     return (nlp_projects and convolution_projects)
 
+
 @slicing_function()
 def short_text(x):
     """Proyectos con títulos y descripciones cortos."""
     return len(x.text.split()) < 8  # menos de 8 palabras
+
 
 def get_slice_metrics(y_true, y_pred, slices):
     """Generar métricas para segmentos de datos."""
@@ -909,6 +927,7 @@ def get_slice_metrics(y_true, y_pred, slices):
             metrics[slice_name]["f1"] = slice_metrics[2]
             metrics[slice_name]["num_samples"] = len(y_true[mask])
     return metrics
+
 
 def get_metrics(y_true, y_pred, classes, df=None):
     """Métricas de rendimiento utilizando verdades y predicciones."""
@@ -944,7 +963,7 @@ def get_metrics(y_true, y_pred, classes, df=None):
 Instale los paquetes requeridos y agréguelos a `requirements.txt`:
 
 ```bash
-pip install imbalanced-learn==0.8.1 snorkel==0.9.8
+python -m pip install imbalanced-learn==0.8.1 snorkel==0.9.8
 ```
 
 ```bash
@@ -958,7 +977,7 @@ Comandos para entrenar un modelo:
 ```python
 from pathlib import Path
 from config import config
-from coe_template import main
+from src import main
 args_fp = Path(config.CONFIG_DIR, "args.json")
 main.train_model(args_fp)
 ```
@@ -973,7 +992,7 @@ If this call came from a _pb2.py file, your generated code is out of date and mu
 Para solucionar este error hay que hacer un downgrade de protobuf:
 
 ```bash
-pip install protobuf==3.20.*
+python -m pip install protobuf==3.20.*
 ```
 
 ```bash
@@ -993,7 +1012,7 @@ Luego vuelva a ejecutar los comandos para entrenar el modelo.
 Ahora que podemos entrenar un modelo, estamos listos para entrenar muchos modelos para optimizar nuestros hiperparámetros:
 
 ```python
-# coe_template/main.py
+# src/main.py
 import mlflow
 from numpyencoder import NumpyEncoder
 import optuna
@@ -1027,7 +1046,7 @@ def optimize(args_fp, study_name, num_trials):
 Definiremos la función `objective()` dentro de `train.py`:
 
 ```python
-# coe_template/train.py
+# src/train.py
 def objective(args, df, trial):
     """Función objetivo para pruebas de optimización."""
     # Parámetros a tunear
@@ -1052,8 +1071,9 @@ def objective(args, df, trial):
 Recuerde que en nuestro notebook modificamos la función `train()` para incluir información sobre las pruebas durante la optimización para pruning:
 
 ```python
-# coe_template/train.py
+# src/train.py
 import optuna
+
 
 def train():
     ...
@@ -1094,7 +1114,7 @@ mlflow.set_tracking_uri("file:\\" + str(MODEL_REGISTRY.absolute()))
 Instale los paquetes requeridos y agréguelos a `requirements.txt`:
 
 ```bash
-pip install mlflow==1.23.1 optuna==2.10.0 numpyencoder==0.3.0
+python -m pip install mlflow==1.23.1 optuna==2.10.0 numpyencoder==0.3.0
 ```
 
 ```bash
@@ -1109,7 +1129,7 @@ Comandos para optimizar hiperparámetros:
 ```python
 from pathlib import Path
 from config import config
-from coe_template import main
+from src import main
 args_fp = Path(config.CONFIG_DIR, "args.json")
 main.optimize(args_fp, study_name="optimization", num_trials=20)
 ```
@@ -1125,9 +1145,10 @@ Ahora que tenemos nuestros hiperparámetros optimizados, podemos entrenar un mod
 Comenzaremos modificando la operación `train()` en nuestro script `main.py`:
 
 ```python
-# coe_template/main.py
+# src/main.py
 import joblib
 import tempfile
+
 
 def train_model(args_fp, experiment_name, run_name):
     """Entrenar un modelo con argumentos dados."""
@@ -1168,12 +1189,13 @@ def train_model(args_fp, experiment_name, run_name):
 También vamos a actualizar la función `train()` dentro de `train.py` para que se capturen las métricas intermedias:
 
 ```python
-# coe_template/train.py
+# src/train.py
 import mlflow
+
 
 def train():
     ...
-    # Entrenamiento
+    # Training
     for epoch in range(args.num_epochs):
         ...
         # Log
@@ -1186,7 +1208,7 @@ Comandos para entrenar un modelo con seguimiento de experimentos:
 ```python
 from pathlib import Path
 from config import config
-from coe_template import main
+from src import main
 args_fp = Path(config.CONFIG_DIR, "args.json")
 main.train_model(args_fp, experiment_name="baselines", run_name="sgd")
 ```
@@ -1204,8 +1226,9 @@ Los estamos guardando para poder acceder rápidamente a estos metadatos del últ
 Finalmente estamos listos para usar nuestro modelo entrenado para la inferencia. Agregaremos la operación para predecir una etiqueta a `main.py`:
 
 ```python
-# coe_template/main.py
-from coe_template import data, predict, train, utils
+# src/main.py
+from src import data, predict, train, utils
+
 
 def predict_tag(text, run_id=None):
     """Predecir etiqueta para texto."""
@@ -1220,7 +1243,7 @@ def predict_tag(text, run_id=None):
 Esto implica crear la función `load_artifacts()` dentro de nuestro script `main.py`:
 
 ```python
-# coe_template/main.py
+# src/main.py
 def load_artifacts(run_id):
     """Cargar artefactos para un run_id determinado."""
     # Localizar el directorio específicos de los artefactos
@@ -1269,7 +1292,7 @@ Comandos para predecir la etiqueta de texto:
 ```python
 from pathlib import Path
 from config import config
-from coe_template import main
+from src import main
 text = "Transfer learning with transformers for text classification."
 run_id = open(Path(config.CONFIG_DIR, "run_id.txt")).read()
 main.predict_tag(text=text, run_id=run_id)

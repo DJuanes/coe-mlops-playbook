@@ -68,6 +68,7 @@ A continuación, configuraremos el logger para nuestra aplicación:
 import logging
 import sys
 
+
 # Logger
 logging_config = {
     "version": 1,
@@ -227,6 +228,7 @@ Podemos cargar nuestro diccionario de configuración del log así:
 # config/config.py
 from rich.logging import RichHandler
 
+
 logging.config.dictConfig(logging_config)
 logger = logging.getLogger()
 logger.handlers[0] = RichHandler(markup=True)  # pretty formatting
@@ -242,7 +244,7 @@ logging.critical("Hay algo terriblemente mal y el proceso puede terminar.")
 Necesitaremos instalar la librería `RichHandler` y agregarla a `requirements.txt`:
 
 ```bash
-pip install rich==12.4.4
+python -m pip install rich==12.4.4
 ```
 
 ```bash
@@ -262,6 +264,7 @@ se convierte en:
 
 ```python
 from config.config import logger
+
 
 logger.info("✅ Datos guardados!")
 ```

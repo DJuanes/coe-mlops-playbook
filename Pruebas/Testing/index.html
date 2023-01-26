@@ -17,7 +17,7 @@
     
     
       
-        <title>Makefiles - CoE MLOps Playbook</title>
+        <title>Pruebas de sistemas de Machine Learning: Código, datos y modelos - CoE MLOps Playbook</title>
       
     
     
@@ -67,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#makefiles" class="md-skip">
+        <a href="#pruebas-de-sistemas-de-machine-learning-codigo-datos-y-modelos" class="md-skip">
           Skip to content
         </a>
       
@@ -99,7 +99,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Makefiles
+              Pruebas de sistemas de Machine Learning: Código, datos y modelos
             
           </span>
         </div>
@@ -749,50 +749,64 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#componentes" class="md-nav__link">
-    Componentes
+  <a href="#tipos-de-pruebas" class="md-nav__link">
+    Tipos de pruebas
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#targets" class="md-nav__link">
-    Targets
+  <a href="#como-debemos-hacer-las-pruebas" class="md-nav__link">
+    ¿Cómo debemos hacer las pruebas?
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#phony" class="md-nav__link">
-    PHONY
+  <a href="#que-debemos-testear" class="md-nav__link">
+    ¿Qué debemos testear?
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#prerrequisitos" class="md-nav__link">
-    Prerrequisitos
+  <a href="#mejores-practicas" class="md-nav__link">
+    Mejores prácticas
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#variables" class="md-nav__link">
-    Variables
+  <a href="#codigo" class="md-nav__link">
+    Código
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#shells" class="md-nav__link">
-    Shells
+  <a href="#data" class="md-nav__link">
+    Data
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#ayuda" class="md-nav__link">
-    Ayuda
+  <a href="#modelos" class="md-nav__link">
+    Modelos
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#makefile" class="md-nav__link">
+    Makefile
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-vs-monitoreo" class="md-nav__link">
+    Testing vs. monitoreo
   </a>
   
 </li>
@@ -811,94 +825,80 @@
                 
 
 
-<h1 id="makefiles">Makefiles</h1>
-<p>Una herramienta de automatización que organiza comandos para los procesos de nuestra aplicación.</p>
+<h1 id="pruebas-de-sistemas-de-machine-learning-codigo-datos-y-modelos">Pruebas de sistemas de Machine Learning: Código, datos y modelos</h1>
+<p>Aprenda a probar modelos de ML (y su código y datos) para garantizar un comportamiento coherente.</p>
 <h2 id="introduccion">Introducción</h2>
-<p>Para ayudar a organizar todo, vamos a utilizar un Makefile, que es una herramienta de automatización que organiza nuestros comandos.
-Comenzaremos creando este archivo en el directorio raíz de nuestro proyecto.</p>
-<div class="highlight"><pre><span></span><code>touch Makefile
-</code></pre></div>
-<p>En la parte superior de nuestro Makefile, debemos especificar el entorno de shell en el que queremos que se ejecuten todos nuestros comandos:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Makefile</span>
-<span class="nv">SHELL</span> <span class="o">=</span> /bin/bash
-</code></pre></div>
-<h2 id="componentes">Componentes</h2>
-<p>Dentro de nuestro Makefile, crearemos una lista de reglas. Estas reglas tienen un <code>target</code> que a veces puede tener requisitos previos que deben cumplirse
-y en la siguiente línea una tabulación seguida de una receta que especifica cómo crear el target.
-Por ejemplo, si quisiéramos crear una regla para el estilo, agregaríamos lo siguiente:</p>
-<div class="highlight"><pre><span></span><code><span class="c"># Styling</span>
-<span class="nf">.PHONY</span><span class="o">:</span> <span class="n">style</span>
-<span class="nf">style</span><span class="o">:</span>
-    black coe_template
-    flake8 coe_template
-    isort coe_template
-</code></pre></div>
-<h2 id="targets">Targets</h2>
-<p>Podemos ejecutar cualquiera de las reglas escribiendo <code>make &lt;target&gt;</code> en la terminal:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Make a target</span>
-$ make style
-</code></pre></div>
-<p>Si está usando Windows, primero debe instalar <code>make</code> en Windows. Siga los pasos en este <a href="https://linuxhint.com/run-makefile-windows/">link</a>.</p>
-<h2 id="phony">PHONY</h2>
-<p>Los Makefiles se usan comúnmente como accesos directos de comandos, lo que puede generar confusión cuando un target de Makefile y un archivo comparten el mismo nombre.
-A veces, nombraremos nuestros targets y querremos que se ejecuten, ya sea que exista como un archivo real o no.
-En estos escenarios, queremos definir un target PHONY en nuestro archivo MAKE agregando esta línea arriba del target:</p>
-<div class="highlight"><pre><span></span><code><span class="nf">.PHONY</span><span class="o">:</span> &lt;<span class="n">target_name</span>&gt;
-</code></pre></div>
-<p>La mayoría de las reglas en nuestro Makefile requerirán el target PHONY porque queremos que se ejecuten incluso si hay un archivo que comparte el nombre del target.</p>
-<h2 id="prerrequisitos">Prerrequisitos</h2>
-<p>Antes de hacer un target, podemos adjuntarles requisitos previos. Estos pueden ser targets de archivos que deben existir o comandos target PHONY que deben ejecutarse antes de crear este target.
-Por ejemplo, estableceremos el target de estilo como un requisito previo para el target de limpieza para que todos los archivos tengan el formato adecuado antes de limpiarlos.</p>
-<div class="highlight"><pre><span></span><code><span class="c"># Cleaning</span>
-<span class="nf">.PHONY</span><span class="o">:</span> <span class="n">clean</span>
-<span class="nf">clean</span><span class="o">:</span> <span class="n">style</span>
-    find . -type f -name <span class="s2">&quot;*.DS_Store&quot;</span> -ls -delete
-    find . <span class="p">|</span> grep -E <span class="s2">&quot;(__pycache__|\.pyc|\.pyo)&quot;</span> <span class="p">|</span> xargs rm -rf
-    find . <span class="p">|</span> grep -E <span class="s2">&quot;.pytest_cache&quot;</span> <span class="p">|</span> xargs rm -rf
-    find . <span class="p">|</span> grep -E <span class="s2">&quot;.ipynb_checkpoints&quot;</span> <span class="p">|</span> xargs rm -rf
-    find . <span class="p">|</span> grep -E <span class="s2">&quot;.trash&quot;</span> <span class="p">|</span> xargs rm -rf
-    rm -f .coverage
-</code></pre></div>
-<h2 id="variables">Variables</h2>
-<p>También podemos establecer y usar variables dentro de nuestro Makefile para organizar todas nuestras reglas.</p>
+<p>En esta sección veremos como probar el código, los datos y los modelos para construir un sistema de ML con el que podamos iterar de forma fiable.
+Las pruebas son una forma de asegurarnos de que algo funciona según lo previsto.
+Las pruebas son muy útiles para descubrir las fuentes de error tan pronto como sea posible para que podamos reducir los costos posteriores y el tiempo perdido.
+Una vez que hemos diseñado nuestras pruebas, podemos ejecutarlas automáticamente cada vez que cambiamos o añadimos algo a nuestra base de código.</p>
+<h2 id="tipos-de-pruebas">Tipos de pruebas</h2>
+<p>Hay varios tipos de pruebas que se utilizan en diferentes puntos del ciclo de desarrollo, entre los que se encuentran:</p>
 <ul>
-<li>
-<p>Podemos establecer las variables directamente dentro del Makefile. Si la variable no está definida en el Makefile, por defecto sería cualquier variable de entorno con el mismo nombre.</p>
-<div class="highlight"><pre><span></span><code><span class="c"># Set variable</span>
-<span class="nv">MESSAGE</span> <span class="o">:=</span> <span class="s2">&quot;hello world&quot;</span>
-
-<span class="c"># Use variable</span>
-<span class="nf">greeting</span><span class="o">:</span>
-    @echo <span class="si">${</span><span class="nv">MESSAGE</span><span class="si">}</span>
-</code></pre></div>
-</li>
-<li>
-<p>Podemos usar variables pasadas al ejecutar la regla de esta manera:</p>
-<div class="highlight"><pre><span></span><code>make greeting <span class="nv">MESSAGE</span><span class="o">=</span><span class="s2">&quot;hi&quot;</span>
-</code></pre></div>
-</li>
+<li>Pruebas unitarias: pruebas sobre componentes individuales que tienen una única responsabilidad.</li>
+<li>Pruebas de integración: pruebas sobre la funcionalidad combinada de los componentes individuales.</li>
+<li>Pruebas de sistema: pruebas sobre el diseño de un sistema para los resultados esperados en función de las entradas.</li>
+<li>Pruebas de aceptación: pruebas para verificar el cumplimiento de los requisitos, normalmente denominadas pruebas de aceptación del usuario (UAT).</li>
+<li>Pruebas de regresión: pruebas basadas en errores que hemos visto antes para garantizar que los nuevos cambios no los reintroduzcan.</li>
 </ul>
-<h2 id="shells">Shells</h2>
-<p>Cada línea en una receta para una regla se ejecutará en una sub-shell separado. Sin embargo, para ciertas recetas, como activar un entorno virtual y cargar paquetes,
-queremos ejecutar todos los pasos en un solo shell. Para hacer esto, podemos agregar el target especial .ONESHELL encima de cualquier target.</p>
-<div class="highlight"><pre><span></span><code><span class="c"># Environment</span>
-<span class="nf">.ONESHELL</span><span class="o">:</span>
-<span class="nf">venv</span><span class="o">:</span>
-    python3 -m venv venv
-    <span class="nb">source</span> venv/bin/activate <span class="o">&amp;&amp;</span> <span class="se">\</span>
-    python -m pip install --upgrade pip setuptools wheel <span class="o">&amp;&amp;</span> <span class="se">\</span>
-    pip install -e
+<p>La distinción entre las pruebas de los sistemas de ML con los sistemas tradicionales comienza cuando pasamos de probar el código a probar los datos y los modelos.
+También hay muchos otros tipos de pruebas funcionales y no funcionales, como las pruebas de humo, las pruebas de rendimiento, las pruebas de seguridad, etc.,
+pero podemos generalizar todas ellas bajo las pruebas del sistema.</p>
+<h2 id="como-debemos-hacer-las-pruebas">¿Cómo debemos hacer las pruebas?</h2>
+<p>El framework que hay que utilizar para componer las pruebas es la metodología Arrange Act Assert.</p>
+<ul>
+<li>Arrange: establecer las diferentes entradas que se van a probar.</li>
+<li>Act: aplicar las entradas en el componente que queremos probar.</li>
+<li>Assert: confirmar que recibimos la salida esperada.</li>
+</ul>
+<p>En Python, hay muchas herramientas, como unittest, pytest, etc. que nos permiten implementar fácilmente nuestras pruebas mientras se adhieren al framework de Arrange Act Assert.
+Estas herramientas vienen con una potente funcionalidad incorporada, como la parametrización, los filtros, y más, para probar muchas condiciones a escala.</p>
+<h2 id="que-debemos-testear">¿Qué debemos testear?</h2>
+<p>Algunos de los aspectos que deberíamos probar son:</p>
+<ul>
+<li>inputs: tipos de datos, formato, longitud, casos límite.</li>
+<li>outputs: tipos de datos, formatos, excepciones, salidas intermedias y finales.</li>
+</ul>
+<h2 id="mejores-practicas">Mejores prácticas</h2>
+<p>Independientemente del framework que utilicemos, es importante vincular fuertemente las pruebas al proceso de desarrollo.</p>
+<ul>
+<li><strong>atomicidad</strong>: al crear funciones y clases, debemos asegurarnos de que tienen una única responsabilidad para poder probarlas fácilmente. Si no es así, tendremos que dividirlas en componentes más granulares.</li>
+<li><strong>composición</strong>: cuando creamos nuevos componentes, queremos componer pruebas para validar su funcionalidad. Es una buena manera de garantizar la fiabilidad y detectar errores desde el principio.</li>
+<li><strong>reutilización</strong>: debemos mantener repositorios centrales en los que se pruebe la funcionalidad principal en el origen y se reutilice en muchos proyectos.
+  Esto reduce significativamente los esfuerzos de prueba para la base de código de cada nuevo proyecto.</li>
+<li><strong>regresión</strong>: queremos tener en cuenta los nuevos errores que encontremos con una prueba de regresión para asegurarnos de no reintroducir los mismos errores en el futuro.</li>
+<li><strong>cobertura</strong>: queremos garantizar una cobertura lo más cercana al 100% de nuestra base de código.</li>
+<li><strong>automatización</strong>: queremos autoejecutar las pruebas cuando hagamos cambios en nuestra base de código.</li>
+</ul>
+<h2 id="codigo"><a href="../C%C3%B3digo/">Código</a></h2>
+<h2 id="data"><a href="../Datos/">Data</a></h2>
+<h2 id="modelos"><a href="../Modelos/">Modelos</a></h2>
+<h2 id="makefile">Makefile</h2>
+<p>Vamos a crear un target en nuestro Makefile que nos permitirá ejecutar todas nuestras pruebas con una sola llamada:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Test</span>
+.PHONY: <span class="nb">test</span>
+test:
+    pytest -m <span class="s2">&quot;not training&quot;</span>
+    <span class="nb">cd</span> tests <span class="o">&amp;&amp;</span> great_expectations checkpoint run projects
+    <span class="nb">cd</span> tests <span class="o">&amp;&amp;</span> great_expectations checkpoint run tags
+    <span class="nb">cd</span> tests <span class="o">&amp;&amp;</span> great_expectations checkpoint run labeled_projects
 </code></pre></div>
-<h2 id="ayuda">Ayuda</h2>
-<p>Lo último que agregaremos a nuestro Makefile es un target de ayuda en la parte superior. Esta regla proporcionará un mensaje informativo para las capacidades de este Makefile:</p>
-<div class="highlight"><pre><span></span><code><span class="nf">.PHONY</span><span class="o">:</span> <span class="n">help</span>
-<span class="nf">help</span><span class="o">:</span>
-    @echo <span class="s2">&quot;venv    : crea un virtual environment.&quot;</span>
-    @echo <span class="s2">&quot;style   : ejecuta el formato de estilo.&quot;</span>
-    @echo <span class="s2">&quot;clean   : limpia todos los archivos innecesarios.&quot;</span>
+<div class="highlight"><pre><span></span><code>make <span class="nb">test</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>make <span class="nb">help</span>
-</code></pre></div>
+<h2 id="testing-vs-monitoreo">Testing vs. monitoreo</h2>
+<p>Ambas son partes integrales del proceso de desarrollo de ML y dependen la una de la otra para la iteración.
+Las pruebas consisten en asegurar que nuestro sistema (código, datos y modelos) supera las expectativas que hemos establecido.
+Por su parte, la monitorización implica que estas expectativas sigan pasando en línea en los datos de producción en vivo,
+al tiempo que se garantiza que sus distribuciones de datos son comparables a la ventana de referencia.
+Cuando estas condiciones dejan de cumplirse, hay que inspeccionar más de cerca (el reentrenamiento no siempre soluciona el problema de fondo).
+En el caso del monitoreo, hay bastantes preocupaciones distintas que no tuvimos que considerar durante las pruebas, ya que se trata de datos que aún no hemos visto.</p>
+<ul>
+<li>Features y distribuciones de predicción (drift), tipificación, desajustes de esquema, etc.</li>
+<li>Determinar el rendimiento del modelo (métricas rolling y window, en general y en slices) utilizando señales indirectas (ya que las etiquetas pueden no estar disponibles fácilmente).</li>
+<li>En situaciones con datos de gran tamaño, necesitamos saber qué puntos de datos hay que etiquetar y sobremuestrear para el entrenamiento.</li>
+<li>Identificar anomalías y valores atípicos.</li>
+</ul>
+<p>Cubriremos todos estos conceptos en la sección de monitorización.</p>
 
               
             </article>

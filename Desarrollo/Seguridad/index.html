@@ -17,7 +17,7 @@
     
     
       
-        <title>Documentación - CoE MLOps Playbook</title>
+        <title>Seguridad - CoE MLOps Playbook</title>
       
     
     
@@ -66,11 +66,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#documentacion-de-codigo" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -99,7 +94,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Documentación
+              Seguridad
             
           </span>
         </div>
@@ -607,80 +602,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Documentación
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../Documentaci%C3%B3n/" class="md-nav__link">
         Documentación
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#introduccion" class="md-nav__link">
-    Introducción
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tipificacion" class="md-nav__link">
-    Tipificación
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#docstrings" class="md-nav__link">
-    Docstrings
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#docs" class="md-nav__link">
-    Docs
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#publicacion" class="md-nav__link">
-    Publicación
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -704,11 +630,19 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../Seguridad/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Seguridad
       </a>
+      
     </li>
   
 
@@ -1203,51 +1137,6 @@
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#introduccion" class="md-nav__link">
-    Introducción
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tipificacion" class="md-nav__link">
-    Tipificación
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#docstrings" class="md-nav__link">
-    Docstrings
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#docs" class="md-nav__link">
-    Docs
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#publicacion" class="md-nav__link">
-    Publicación
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -1261,170 +1150,9 @@
                 
 
 
-<h1 id="documentacion-de-codigo">Documentación de código</h1>
-<p>Documentación de código para su equipo y su yo futuro.</p>
-<h2 id="introduccion">Introducción</h2>
-<p>Podemos organizar aún más nuestro código al documentarlo para que sea más fácil para otros (y para nosotros mismos en el futuro) navegarlo y extenderlo fácilmente.
-La documentación puede significar muchas cosas diferentes para los desarrolladores, así que definamos los componentes más comunes:</p>
-<ul>
-<li>comentarios: breves descripciones de por qué existe un fragmento de código.</li>
-<li>tipificación: especificación de los tipos de datos de entrada y salida de una función, proporcionando información relacionada con lo que una función consume y produce.</li>
-<li>docstrings: descripciones significativas para funciones y clases que describen la utilidad general, argumentos, retornos, etc.</li>
-<li>docs: página web renderizada que resume todas las funciones, clases, flujos de trabajo, ejemplos, etc.</li>
-</ul>
-<p>En la sección de CI/CD aprenderemos cómo crear automáticamente y mantener nuestros documentos actualizados cada vez que hagamos cambios en nuestra base de código.</p>
-<h2 id="tipificacion">Tipificación</h2>
-<p>Es importante ser lo más explícito posible con nuestro código.
-Además de la elección de nombres explícitos para variables, funciones, etc., otra forma en que podemos ser explícitos es definiendo los tipos para las entradas y salidas de nuestra función.
-En lugar de:</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">some_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">c</span>
-</code></pre></div>
-<p>Podemos hacerlo más legible:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+  <h1>Seguridad</h1>
 
-<span class="k">def</span> <span class="nf">some_function</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="k">return</span> <span class="n">c</span>
-</code></pre></div>
-<p>A partir de Python 3.9+, los tipos comunes están integrados, por lo que ya no es necesario importarlos escribiendo import List, Set, Dict, Tuple, Sequence.</p>
-<h2 id="docstrings">Docstrings</h2>
-<p>Podemos hacer que nuestro código sea aún más explícito agregando docstrings para describir la utilidad general, los argumentos, las devoluciones, las excepciones y más. Por ejemplo:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
-<span class="k">def</span> <span class="nf">some_function</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Descripción de la función.</span>
-
-<span class="sd">    ```python</span>
-<span class="sd">    c = some_function(a=[], b=0)</span>
-<span class="sd">    print (c)</span>
-<span class="sd">    ```</span>
-<span class="sd">    &lt;pre&gt;</span>
-<span class="sd">    [[1 2]</span>
-<span class="sd">     [3 4]]</span>
-<span class="sd">    &lt;/pre&gt;</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        a (List): descripción de `a`.</span>
-<span class="sd">        b (int, optional): descripción de `b`. Defaults to 0.</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        ValueError: Input list is not one-dimensional.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray: Descripción de `c`.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">c</span>
-</code></pre></div>
-<p>Tómese este tiempo para actualizar todas las funciones y clases en el proyecto con docstrings.
-Tenga en cuenta que debe importar explícitamente algunas bibliotecas a ciertos scripts porque el tipo lo requiere.
-Idealmente, agregaríamos docstrings a nuestras funciones y clases a medida que las desarrollamos, en lugar de hacerlo todo de una vez al final.
-Si usa Visual Studio Code, asegúrese de usar la extensión <a href="https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring">Python Docstrings Generator</a>
-para que pueda generar una plantilla docstring con <code>ctrl+shift+2</code>.
-Esta extensión autocompletará partes de docstring usando la información de escritura e incluso excepción en su código.</p>
-<h2 id="docs">Docs</h2>
-<p>Mediante paquetes de código abierto podemos recopilar toda la documentación dentro de nuestro código y mostrarlo automáticamente como documentación.</p>
-<ol>
-<li>
-<p>Instale los paquetes necesarios:</p>
-<div class="highlight"><pre><span></span><code>python -m pip install <span class="nv">mkdocs</span><span class="o">==</span><span class="m">1</span>.3.0 <span class="nv">mkdocstrings</span><span class="o">==</span><span class="m">0</span>.18.1
-</code></pre></div>
-<p>En lugar de agregar directamente estos requisitos a nuestro archivo <code>requirements.txt</code>, vamos a aislarlo de nuestras bibliotecas principales requeridas.
-  Modificaremos nuestro script <code>setup.py</code> para que esto sea posible. Definiremos estos paquetes bajo un objeto <code>docs_packages</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># setup.py</span>
-<span class="nv">docs_packages</span> <span class="o">=</span> <span class="o">[</span>
-    <span class="s2">&quot;mkdocs==1.3.0&quot;</span>,
-    <span class="s2">&quot;mkdocstrings==0.18.1&quot;</span>
-<span class="o">]</span>
-</code></pre></div>
-<p>y luego agregaremos esto al objeto <code>setup()</code> en el script:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Definir nuestro paquete</span>
-setup<span class="o">(</span>
-    ...
-    <span class="nv">install_requires</span><span class="o">=[</span>required_packages<span class="o">]</span>,
-    <span class="nv">extras_require</span><span class="o">={</span>
-        <span class="s2">&quot;dev&quot;</span>: docs_packages,
-        <span class="s2">&quot;docs&quot;</span>: docs_packages,
-    <span class="o">}</span>,
-<span class="o">)</span>
-</code></pre></div>
-<p>Ahora podemos instalar este paquete con:</p>
-<div class="highlight"><pre><span></span><code>python -m pip install -e <span class="s2">&quot;.[docs]&quot;</span>
-</code></pre></div>
-<p>También estamos definiendo una opción de <code>dev</code> que iremos actualizando para que los desarrolladores
-  puedan instalar todos los paquetes necesarios y adicionales en una sola llamada.</p>
-<div class="highlight"><pre><span></span><code>python -m pip install -e <span class="s2">&quot;.[dev]&quot;</span>
-</code></pre></div>
-</li>
-<li>
-<p>Inicialice mkdocs:</p>
-<div class="highlight"><pre><span></span><code>python -m mkdocs new .
-</code></pre></div>
-</li>
-<li>
-<p>Comenzaremos por sobrescribir el archivo <code>index.md</code> predeterminado en nuestro directorio <code>docs</code> con información específica de nuestro proyecto:</p>
-<div class="highlight"><pre><span></span><code>index.md
-<span class="gh"># CoE MLOps Template</span>
-
-<span class="gu">## Proyecto Template</span>
-
-<span class="k">-</span> [<span class="nt">Workflows</span>](<span class="na">coe_template/main.md</span>): Flujos de trabajo principales.
-<span class="k">-</span> [<span class="nt">coe_template</span>](<span class="na">coe_template/data.md</span>): documentación de la funcionalidad.
-
-<span class="gu">## Documentación paso a paso</span>
-
-Aprenda a combinar machine learning con la ingeniería de software para crear aplicaciones de nivel de producción.
-
-<span class="k">-</span> Codigo: [<span class="nt">DJuanes/coe-mlops-playbook</span>](<span class="na">https://github.com/DJuanes/coe-mlops-playbook</span>)
-</code></pre></div>
-</li>
-<li>
-<p>Luego, crearemos archivos de documentación para cada script en nuestro directorio coe_template:</p>
-<div class="highlight"><pre><span></span><code>mkdir docs/coe_template
-<span class="nb">cd</span> docs/coe_template
-touch main.md utils.md data.md train.md evaluate.md predict.md
-<span class="nb">cd</span> ../../
-</code></pre></div>
-</li>
-<li>
-<p>A continuación, agregaremos <code>coe_template.&lt;SCRIPT_NAME&gt;</code> a cada archivo en <code>docs/coe_template</code>.
-   Esto llenará el archivo con información sobre las funciones y clases (usando sus docstrings) de <code>coe_template/&lt;SCRIPT_NAME&gt;.py</code> gracias al complemento <code>mkdocstrings</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="gh"># docs/coe_template/data.md</span>
-::: coe_template.data
-</code></pre></div>
-</li>
-<li>
-<p>Finalmente, agregaremos algunas configuraciones a nuestro archivo mkdocs.yml:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># mkdocs.yml</span><span class="w"></span>
-<span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CoE MLOps Playbook</span><span class="w"></span>
-<span class="nt">site_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://coe-mlops.com/</span><span class="w"></span>
-<span class="nt">repo_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/DJuanes/coe-mlops-playbook/</span><span class="w"></span>
-<span class="nt">nav</span><span class="p">:</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Home</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">index.md</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">workflows</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">main</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coe_template/main.md</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">coe_template</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">data</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coe_template/data.md</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">evaluate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coe_template/evaluate.md</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">predict</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coe_template/predict.md</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">train</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coe_template/train.md</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">utils</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coe_template/utils.md</span><span class="w"></span>
-<span class="nt">theme</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">readthedocs</span><span class="w"></span>
-<span class="nt">plugins</span><span class="p">:</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mkdocstrings</span><span class="w"></span>
-<span class="nt">watch</span><span class="p">:</span><span class="w"></span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.</span><span class="w">  </span><span class="c1"># recargar documentos para cualquier cambio de archivo</span><span class="w"></span>
-</code></pre></div>
-</li>
-<li>
-<p>Disponibilice la documentación localmente:</p>
-<div class="highlight"><pre><span></span><code>python -m mkdocs serve
-</code></pre></div>
-</li>
-</ol>
-<h2 id="publicacion">Publicación</h2>
-<p>Podemos publicar fácilmente nuestra documentación de forma gratuita utilizando páginas de GitHub para repositorios públicos, así como documentación privada para repositorios privados.
-E incluso podemos alojarlo en un dominio personalizado.</p>
 
               
             </article>
@@ -1438,7 +1166,7 @@ E incluso podemos alojarlo en un dominio personalizado.</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../Logging/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Logging" rel="prev">
+        <a href="../Estilismo/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Estilismo" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -1447,20 +1175,20 @@ E incluso podemos alojarlo en un dominio personalizado.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Logging
+              Estilismo
             </div>
           </div>
         </a>
       
       
         
-        <a href="../Estilismo/" class="md-footer__link md-footer__link--next" aria-label="Next: Estilismo" rel="next">
+        <a href="../Makefile/" class="md-footer__link md-footer__link--next" aria-label="Next: Makefile" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Estilismo
+              Makefile
             </div>
           </div>
           <div class="md-footer__button md-icon">

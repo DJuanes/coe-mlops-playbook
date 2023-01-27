@@ -29,10 +29,29 @@ nav:
     - Logging: Desarrollo\Logging.md
     - Documentación: Desarrollo\Documentación.md
     - Estilismo: Desarrollo\Estilismo.md
+    - Seguridad: Desarrollo\Seguridad.md
     - Makefile: Desarrollo\Makefile.md
   - Inferencia:
     - Línea de comando: Inferencia\Línea de comando.md
     - API RESTful: Inferencia\API RESTful.md
+  - Testing: Testing\Testing.md
+    - Código: Desarrollo\Código.md
+    - Datos: Desarrollo\Datos.md
+    - Modelos: Desarrollo\Modelos.md
+  - Reproducibilidad:
+    - Git: Reproducibilidad\Git.md
+    - Pre-commit: Reproducibilidad\Pre-commit.md
+    - Versionado: Reproducibilidad\Versionado.md
+    - Docker: Reproducibilidad\Docker.md
+  - Producción:
+    - Dashboard: Producción\Dashboard.md
+    - CI-CD: Producción\CI-CD.md
+    - Monitoreo: Producción\Monitoreo.md
+    - Diseño de sistemas: Producción\Diseño de sistemas.md
+  - Ingeniería de datos:
+    - Data stack: Ingeniería de datos\Data stack.md
+    - Orquestación: Ingeniería de datos\Orquestación.md
+    - Feature store: Ingeniería de datos\Feature store.md
 
 theme:
   name: material
@@ -40,8 +59,8 @@ theme:
     text: Roboto
   palette:
     primary: blue
-  logo: resources/YPF.svg
-  favicon: resources/YPF.svg
+  logo: ./resources/YPF.svg
+  favicon: ./resources/YPF.svg
   features:
     - navigation.instant
     - navigation.indexes

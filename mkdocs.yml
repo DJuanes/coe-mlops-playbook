@@ -30,7 +30,7 @@ nav:
     - Documentación: Desarrollo\Documentación.md
     - Estilismo: Desarrollo\Estilismo.md
     - Seguridad: Desarrollo\Seguridad.md
-    - Makefile: Desarrollo\Makefile.md
+    - Automatización: Desarrollo\Automatización.md
   - Inferencia:
     - Línea de comando: Inferencia\Línea de comando.md
     - API RESTful: Inferencia\API RESTful.md

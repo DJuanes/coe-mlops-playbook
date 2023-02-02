@@ -41,7 +41,7 @@ La documentación contenida en este playbook ayuda a aprender a combinar machine
   * [Documentación](./Desarrollo/Documentación.md)
   * [Estilismo](./Desarrollo/Estilismo.md)
   * [Seguridad](./Desarrollo/Seguridad.md)
-  * [Makefile](./Desarrollo/Makefile.md)
+  * [Automatización](./Desarrollo/Automatización.md)
 * Inferencia
   * [Línea de comando](./Inferencia/Línea%20de%20comando.md)
   * [API RESTful](./Inferencia/API%20RESTful.md)
